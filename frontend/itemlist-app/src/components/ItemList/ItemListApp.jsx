@@ -1,14 +1,20 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 class ItemListApp extends Component {
   render() {
     return (
       <div className="ItemListApp">
         <Router>
-          <Route path="/" exact component={LoginComponent} />
-          <Route path="/login" component={LoginComponent} />
-          <Route path="/welcome" component={WelcomeComponent} />
+          <>
+            <Switch>
+              <Route path="/" exact component={LoginComponent} />
+              <Route path="/login" component={LoginComponent} />
+              <Route path="/welcome/:name" component={WelcomeComponent} />
+              <Route path="/itemlist" component={ItemListComponent} />
+              <Route component={ErrorComponent} />
+            </Switch>
+          </>
         </Router>
 
         {/* Using <> </> is a react fragment.
@@ -21,10 +27,79 @@ class ItemListApp extends Component {
   }
 }
 
+class ItemListComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: [
+        {
+          id: 1,
+          description: "record collection",
+          done: false,
+          targetDate: new Date(),
+        },
+        { id: 2, description: "books", done: false, targetDate: new Date() },
+        {
+          id: 3,
+          description: "keyboards",
+          done: false,
+          targetDate: new Date(),
+        },
+      ],
+    };
+  }
+  render() {
+    return (
+      <div>
+        <h1>Item List</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>description</th>
+              <th>Completed</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.items.map((item) => (
+              <tr>
+                <td>{item.id}</td>
+                <td>{item.description}</td>
+                <td>{item.done.toString()}</td>
+                <td>{item.targetDate.toString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
+/* this.props.match.params.name below is referred to the route above /welcome/:name
+   Using a <a></a> tag for Routing refreshes the entire page, not recommended.
+   Use Link to link for Routing */
+
 class WelcomeComponent extends Component {
   render() {
-    return <div>Welcome user</div>;
+    return (
+      <div>
+        Welcome {this.props.match.params.name}
+        <br />
+        <Link to="/itemlist">Item List</Link>
+      </div>
+    );
   }
+}
+
+function ErrorComponent() {
+  return (
+    <div>
+      An Error Occured. I don't know what to do! Contact support about this
+      error
+    </div>
+  );
 }
 
 class LoginComponent extends Component {
@@ -73,9 +148,10 @@ class LoginComponent extends Component {
   //   }
 
   loginClicked() {
-    // static login credentials
+    // static login credentials: user ,  password
     if (this.state.username === "user" && this.state.password === "password") {
-      console.log("Successful");
+      this.props.history.push(`/welcome/${this.state.username}`);
+      //  console.log("Successful");
       this.setState({ showSuccessMessge: true });
       this.setState({ hasLoginFailed: false });
     } else {
