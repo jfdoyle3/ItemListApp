@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import AuthenticationService from "./AuthenticationService.js";
 
 class ItemListApp extends Component {
   render() {
@@ -60,7 +61,11 @@ class HeaderComponent extends Component {
               </Link>
             </li>
             <li>
-              <Link className="nav-link" to="/logout">
+              <Link
+                className="nav-link"
+                to="/logout"
+                onClick={AuthenticationService.logout}
+              >
                 Logout
               </Link>
             </li>
@@ -117,26 +122,26 @@ class ItemListComponent extends Component {
     return (
       <div>
         <h1>Item List</h1>
-        <table>
-          <thead>
-            <tr>
-              <th>id</th>
-              <th>description</th>
-              <th>Completed</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.items.map((item) => (
+        <div className="container">
+          <table className="table">
+            <thead>
               <tr>
-                <td>{item.id}</td>
-                <td>{item.description}</td>
-                <td>{item.done.toString()}</td>
-                <td>{item.targetDate.toString()}</td>
+                <th>description</th>
+                <th>Completed</th>
+                <th>Date</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {this.state.items.map((item) => (
+                <tr>
+                  <td>{item.description}</td>
+                  <td>{item.done.toString()}</td>
+                  <td>{item.targetDate.toString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
@@ -151,11 +156,14 @@ class ItemListComponent extends Component {
 class WelcomeComponent extends Component {
   render() {
     return (
-      <div>
-        Welcome {this.props.match.params.name}
-        <br />
-        <Link to="/itemlist">Item List</Link>
-      </div>
+      <>
+        <h1>Welcome!</h1>
+        <div className="container">
+          Welcome {this.props.match.params.name}
+          <br />
+          <Link to="/itemlist">Item List</Link>
+        </div>
+      </>
     );
   }
 }
@@ -217,6 +225,10 @@ class LoginComponent extends Component {
   loginClicked() {
     // static login credentials: user ,  password
     if (this.state.username === "user" && this.state.password === "password") {
+      AuthenticationService.registerSuccessfulLogin(
+        this.state.username,
+        this.state.password
+      );
       this.props.history.push(`/welcome/${this.state.username}`);
       //  console.log("Successful");
       this.setState({ showSuccessMessge: true });
@@ -233,33 +245,40 @@ class LoginComponent extends Component {
   render() {
     return (
       <div>
-        {/* Javascript:  boolean: true && "Text" = outpu: Text */}
-        {/* Javascript:  boolean: false && "Text"= output: false */}
-        {/* ------------------------------------------------------------ */}
-        {/* these lines calls the function Component below and return a div tag message */}
-        {/*                                                                          */}
-        {/* <ShowInvalidCredentials hasLoginFailed={this.state.hasLoginFailed} /> */}
-        {/* <ShowValidCredentials showSuccessMessge={this.state.showSuccessMessge} /> */}
-        {/* ------------------------------------------------------------------------ */}
-        {/* if hasLoginFailed or showSuccessMessge is true: show div tag's message  */}
-        {/* using this method is clean code and output the same as the function Component does */}
-        {this.state.hasLoginFailed && <div>Invalid Credentials</div>}
-        {this.state.showSuccessMessge && <div>Login Successful</div>}
-        User Name:
-        <input
-          type="text"
-          name="username"
-          value={this.state.username}
-          onChange={this.handleChange}
-        />
-        Password:
-        <input
-          type="password"
-          name="password"
-          value={this.state.password}
-          onChange={this.handleChange}
-        />
-        <button onClick={this.loginClicked}>Login</button>
+        <h1>Login</h1>
+        <div className="container">
+          {/* Javascript:  boolean: true && "Text" = outpu: Text */}
+          {/* Javascript:  boolean: false && "Text"= output: false */}
+          {/* ------------------------------------------------------------ */}
+          {/* these lines calls the function Component below and return a div tag message */}
+          {/*                                                                          */}
+          {/* <ShowInvalidCredentials hasLoginFailed={this.state.hasLoginFailed} /> */}
+          {/* <ShowValidCredentials showSuccessMessge={this.state.showSuccessMessge} /> */}
+          {/* ------------------------------------------------------------------------ */}
+          {/* if hasLoginFailed or showSuccessMessge is true: show div tag's message  */}
+          {/* using this method is clean code and output the same as the function Component does */}
+          {this.state.hasLoginFailed && (
+            <div className="alert alert-warning">Invalid Credentials</div>
+          )}
+          {this.state.showSuccessMessge && <div>Login Successful</div>}
+          User Name:
+          <input
+            type="text"
+            name="username"
+            value={this.state.username}
+            onChange={this.handleChange}
+          />
+          Password:
+          <input
+            type="password"
+            name="password"
+            value={this.state.password}
+            onChange={this.handleChange}
+          />
+          <button className="btn btn-success" onClick={this.loginClicked}>
+            Login
+          </button>
+        </div>
       </div>
     );
   }
