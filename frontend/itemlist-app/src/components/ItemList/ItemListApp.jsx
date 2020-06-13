@@ -6,15 +6,16 @@ class ItemListApp extends Component {
     return (
       <div className="ItemListApp">
         <Router>
-          <>
-            <Switch>
-              <Route path="/" exact component={LoginComponent} />
-              <Route path="/login" component={LoginComponent} />
-              <Route path="/welcome/:name" component={WelcomeComponent} />
-              <Route path="/itemlist" component={ItemListComponent} />
-              <Route component={ErrorComponent} />
-            </Switch>
-          </>
+          <HeaderComponent />
+          <Switch>
+            <Route path="/" exact component={LoginComponent} />
+            <Route path="/login" component={LoginComponent} />
+            <Route path="/welcome/:name" component={WelcomeComponent} />
+            <Route path="/itemlist" component={ItemListComponent} />
+            <Route path="/logout" component={LogoutComponent} />
+            <Route component={ErrorComponent} />
+          </Switch>
+          <FooterComponent />
         </Router>
 
         {/* Using <> </> is a react fragment.
@@ -23,6 +24,70 @@ class ItemListApp extends Component {
         {/*  <LoginComponent />
         <WelcomeComponent />*/}
       </div>
+    );
+  }
+}
+
+class HeaderComponent extends Component {
+  render() {
+    return (
+      <header>
+        <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+          <div>
+            <a
+              href="https://github.com/jfdoyle3/JavaReactNoteBook"
+              className="navbar-brand"
+            >
+              Java/React App
+            </a>
+          </div>
+          <ul className="navbar-nav">
+            <li>
+              <Link className="nav-link" to="/welcome/user">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link className="nav-link" to="/itemlist">
+                Item List
+              </Link>
+            </li>
+          </ul>
+          <ul className="navbar-nav navbar-collapse  justify-content-end">
+            <li>
+              <Link className="nav-link" to="/login">
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link className="nav-link" to="/logout">
+                Logout
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </header>
+    );
+  }
+}
+
+class FooterComponent extends Component {
+  render() {
+    return (
+      <footer className="footer">
+        <span className="text-muted">Typed by the fingers of Jim Doyle</span>
+      </footer>
+    );
+  }
+}
+
+class LogoutComponent extends Component {
+  render() {
+    return (
+      <>
+        <h1>You are logged out</h1>
+        <div className="container">Thanks and Goodbye</div>
+      </>
     );
   }
 }
@@ -78,8 +143,10 @@ class ItemListComponent extends Component {
 }
 
 /* this.props.match.params.name below is referred to the route above /welcome/:name
-   Using a <a></a> tag for Routing refreshes the entire page, not recommended.
-   Use Link to link for Routing */
+   name is a varible:  this.props.match.params.variable_name = /route/:variable_name
+   Using a <a> tag for Routing refreshes the entire page, not recommended.
+   <a> tags can be used for links outside the react environment.
+   Use Link to="<route-name>" link for Routing */
 
 class WelcomeComponent extends Component {
   render() {
@@ -169,7 +236,7 @@ class LoginComponent extends Component {
         {/* Javascript:  boolean: true && "Text" = outpu: Text */}
         {/* Javascript:  boolean: false && "Text"= output: false */}
         {/* ------------------------------------------------------------ */}
-        {/* the lines below calls the function Component and return a div tag message */}
+        {/* these lines calls the function Component below and return a div tag message */}
         {/*                                                                          */}
         {/* <ShowInvalidCredentials hasLoginFailed={this.state.hasLoginFailed} /> */}
         {/* <ShowValidCredentials showSuccessMessge={this.state.showSuccessMessge} /> */}
