@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import AuthenticationService from "../AuthenticationService.js";
-import AuthenticatedRoute from "../AuthenticatedRoute.jsx";
 
 class ItemListComponent extends Component {
   constructor(props) {
