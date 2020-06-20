@@ -1,6 +1,7 @@
 package com.example.rest.webservices.restfulwebservices;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 // Controller
@@ -24,4 +25,12 @@ public class ResistanceController {
 	public resistanceBean resistanceBean() {
 		return new resistanceBean("Resistance is Futile!");
 	}
+
+	// this returns a JSON response to the page.
+	// resistance/path-variable/{name}  where {name} is the pass thru variable from the class/code.
+	@GetMapping(path = "/resistance/path-variable/{name}")
+	public resistanceBean resistancePathVariable(@PathVariable String name) {
+		return new resistanceBean(String.format("Resistance is Futile! , %s",name));
+	}
+	
 }
