@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Link } from "react-router-dom";
-import ResistanceService from "../../../api/ItemList/ResistanceService.jsx";
+import ResistanceService from "../../../api/ItemList/ResistanceService.js";
 /* this.props.match.params.name below is referred to the route above /welcome/:name
    name is a varible:  this.props.match.params.variable_name = /route/:variable_name
    Using a <a> tag for Routing refreshes the entire page, not recommended.
@@ -15,6 +15,7 @@ class WelcomeComponent extends Component {
       resistanceMessage: "",
     };
     this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this);
+    this.handleErrorResponse = this.handleErrorResponse.bind(this);
   }
 
   render() {
@@ -42,15 +43,31 @@ class WelcomeComponent extends Component {
   }
 
   retrieveMessage() {
-    ResistanceService.executeResistanceService().then((response) =>
-      this.handleSuccessfulResponse(response)
-    );
+    // ResistanceService.executeResistanceService().then((response) =>
+    //    this.handleSuccessfulResponse(response)
+    //  );
     // .catch()
+    // ResistanceService.executeResistanceBeanService().then((response) =>
+    //   this.handleSuccessfulResponse(response)
+    // );
+    // // .catch()
+    // }
+    ResistanceService.executeResistancPathVariableService(
+      this.props.match.params.name
+    )
+      .then((response) => this.handleSuccessfulResponse(response))
+      .catch((error) => this.handleErrorResponse(error));
   }
   // response.data:  the data is reference from the jason console response from the backend
   // console from the back end: {data: "Resistance is Futile!", status: 200, statusText: "", headers:....}
   handleSuccessfulResponse(response) {
-    this.setState({ resistanceMessage: response.data });
+    console.log(response);
+    this.setState({ resistanceMessage: response.data.message });
+  }
+
+  handleErrorResponse(error) {
+    console.log(error.response);
+    this.setState({ resistanceMessage: error.response.data.message });
   }
 }
 

@@ -21,3 +21,18 @@ Using data in localStorage has no expiration time. The key in it won't be delete
  data stored in there will stay even if the browser is closed and considered unsecure. The key has to be deleted manually or by code.
  Using the sessionStorage the data get cleared when the page session ends and when you close the browser. Using  sessionStorage preferred for login Authentication.
 
+
+
+## REST Blueprint
+
+Retrieve all Items for a User
+GET /users/{user_name}/itemlist
+
+Delete an Item of a User
+DELETE /users/{user_name}/itemlist/{items_id}
+
+Edit/Update an Item
+PUT /users/{user_name}/itemlist/{items_id}
+
+Create a new Item
+POST /users/{user_name}/itemlist/

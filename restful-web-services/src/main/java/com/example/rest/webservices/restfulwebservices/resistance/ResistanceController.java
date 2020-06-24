@@ -1,4 +1,4 @@
-package com.example.rest.webservices.restfulwebservices;
+package com.example.rest.webservices.restfulwebservices.resistance;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +35,7 @@ public class ResistanceController {
 	// resistance/path-variable/{name}  where {name} is the pass thru variable from the class/code.
 	@GetMapping(path = "/resistance/path-variable/{name}")
 	public resistanceBean resistancePathVariable(@PathVariable String name) {
+		//throw new RuntimeException("Runtime ERROR!!!"); // forces an error. 
 		return new resistanceBean(String.format("Resistance is Futile! , %s",name));
 	}
 	

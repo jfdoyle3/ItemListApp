@@ -1,26 +1,37 @@
 import React, { Component } from "react";
+import ItemListDataService from "../../../api/ItemListDataService.js";
+import AuthenticationService from "../AuthenticationService.js";
 
 class ItemListComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       items: [
-        {
-          id: 1,
-          description: "record collection",
-          done: false,
-          targetDate: new Date(),
-        },
-        { id: 2, description: "books", done: false, targetDate: new Date() },
-        {
-          id: 3,
-          description: "keyboards",
-          done: false,
-          targetDate: new Date(),
-        },
+        // {
+        //   id: 1,
+        //   description: "record collection",
+        //   done: false,
+        //   targetDate: new Date(),
+        // },
+        // { id: 2, description: "books", done: false, targetDate: new Date() },
+        // {
+        //   id: 3,
+        //   description: "keyboards",
+        //   done: false,
+        //   targetDate: new Date(),
+        // },
       ],
     };
   }
+
+  componentDidMount() {
+    let username = AuthenticationService.getUserLoggedInName();
+    ItemListDataService.retrieveAllItems(username).then((response) => {
+      // console.log(response);
+      this.setState({ items: response.data });
+    });
+  }
+
   render() {
     return (
       <div>
