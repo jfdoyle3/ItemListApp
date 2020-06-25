@@ -16,9 +16,8 @@ public class ItemListResource {
 	private ItemListHardcodedService itemListService;
 	
  	@GetMapping("/users/{username}/itemlist")
-	public List<ItemList> getAllItems(@PathVariable String username) {
+	public List<ItemList> getAllItems(@PathVariable String username){
+ 	//	Thread.sleep(3000);
 		return itemListService.findAll();
-		
 	}
-	
 }

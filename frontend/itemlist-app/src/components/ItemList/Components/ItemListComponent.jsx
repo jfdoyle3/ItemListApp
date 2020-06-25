@@ -4,6 +4,7 @@ import AuthenticationService from "../AuthenticationService.js";
 
 class ItemListComponent extends Component {
   constructor(props) {
+    console.log("constructor");
     super(props);
     this.state = {
       items: [
@@ -23,8 +24,19 @@ class ItemListComponent extends Component {
       ],
     };
   }
+  componentWillUnmount() {
+    console.log("componentWillUnmount");
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("shouldComponentUpdate");
+    console.log(nextProps);
+    console.log(nextState);
+    return false;
+  }
 
   componentDidMount() {
+    console.log("componentDidMount");
     let username = AuthenticationService.getUserLoggedInName();
     ItemListDataService.retrieveAllItems(username).then((response) => {
       // console.log(response);
@@ -33,6 +45,7 @@ class ItemListComponent extends Component {
   }
 
   render() {
+    console.log("render");
     return (
       <div>
         <h1>Item List</h1>
