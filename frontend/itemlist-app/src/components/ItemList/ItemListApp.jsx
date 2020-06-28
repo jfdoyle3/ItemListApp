@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-// import AuthenticatedRoute from "./AuthenticatedRoute.jsx";
+import AuthenticatedRoute from "./AuthenticatedRoute.jsx";
 import LoginComponent from "./Components/LoginComponent.jsx";
 import ItemListComponent from "./Components/ItemListComponent.jsx";
 import ErrorComponent from "./Components/ErrorComponent.jsx";
@@ -18,11 +18,17 @@ class ItemListApp extends Component {
           <Switch>
             <Route path="/" exact component={LoginComponent} />
             <Route path="/login" component={LoginComponent} />
-            {/* AuthenticatedRoute in from of path on the paths below */}
-            <Route path="/welcome/:name" component={WelcomeComponent} />
-            <Route path="/itemlist" component={ItemListComponent} />
-            <Route path="/logout" component={LogoutComponent} />
-            <Route component={ErrorComponent} />
+
+            <AuthenticatedRoute
+              path="/welcome/:name"
+              component={WelcomeComponent}
+            />
+            <AuthenticatedRoute
+              path="/itemlist"
+              component={ItemListComponent}
+            />
+            <AuthenticatedRoute path="/logout" component={LogoutComponent} />
+            <AuthenticatedRoute component={ErrorComponent} />
           </Switch>
           <FooterComponent />
         </Router>

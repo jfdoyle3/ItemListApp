@@ -23,6 +23,7 @@ class ItemListComponent extends Component {
         // },
       ],
     };
+    this.deleteItemClicked = this.deleteItemClicked.bind(this);
   }
   componentWillUnmount() {
     console.log("componentWillUnmount");
@@ -44,6 +45,10 @@ class ItemListComponent extends Component {
     });
   }
 
+  deleteItemClicked(id) {
+    let username = AuthenticationService.getUserLoggedInName();
+    console.log(id + "|" + username);
+  }
   render() {
     console.log("render");
     return (
@@ -56,6 +61,7 @@ class ItemListComponent extends Component {
                 <th>description</th>
                 <th>Completed</th>
                 <th>Date</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -64,6 +70,14 @@ class ItemListComponent extends Component {
                   <td>{item.description}</td>
                   <td>{item.done.toString()}</td>
                   <td>{item.targetDate.toString()}</td>
+                  <td>
+                    <button
+                      className="btn btn-warning"
+                      onClick={() => this.deleteItemClicked(item.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
