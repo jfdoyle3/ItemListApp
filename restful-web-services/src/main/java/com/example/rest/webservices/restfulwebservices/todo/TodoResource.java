@@ -25,6 +25,12 @@ public class TodoResource {
 		return todoService.findAll();
 	}
 	
+	// GET:  A Todos
+	@GetMapping("/users/{username}/todos/{id}")
+	public Todo getTodo(@PathVariable String username,@PathVariable long id){
+		return todoService.findById(id);
+	}
+	
 	// DELETE: A Todo
 	@DeleteMapping("/users/{username}/todos/{id}")
 	public ResponseEntity<Void> deleteTodo(@PathVariable String username, @PathVariable long id){
