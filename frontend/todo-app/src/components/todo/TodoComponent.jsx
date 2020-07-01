@@ -9,7 +9,7 @@ class TodoComponent extends Component {
     super(props);
     this.state = {
       id: this.props.match.params.id,
-      description: "Learn Forms",
+      description: "",
       targetDate: moment(new Date()).format("YYYY-MM-DD"),
     };
     this.onSubmit = this.onSubmit.bind(this);
@@ -40,6 +40,12 @@ class TodoComponent extends Component {
   }
 
   onSubmit(values) {
+    let username = AuthenticationService.getLoggedInUserName();
+    TodoDataService.updateTodo(username, this.state.id, {
+      id: values.id,
+      description: values.description,
+      targetDate: values.targetDate,
+    });
     console.log(values);
   }
 
