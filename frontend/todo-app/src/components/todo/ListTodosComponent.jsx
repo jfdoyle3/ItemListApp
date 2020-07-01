@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import moment from "moment";
 import TodoDataService from "../../api/todo/TodoDataService.js";
 import AuthenticationService from "./AuthenticationService.js";
 
@@ -84,7 +85,7 @@ class ListTodosComponent extends Component {
               {this.state.todos.map((todo) => (
                 <tr key={todo.id}>
                   <td>{todo.description}</td>
-                  <td>{todo.targetDate.toString()}</td>
+                  <td>{moment(todo.targetDate).format("YYYY-MM-DD")}</td>
                   <td>{todo.done.toString()}</td>
                   <td>
                     <button
