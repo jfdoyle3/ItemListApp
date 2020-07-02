@@ -11,9 +11,10 @@ class ListTodosComponent extends Component {
       todos: [],
       message: null,
     };
-    this.deleteTodoClick = this.deleteTodoClick.bind(this);
-    this.updateTodoClick = this.updateTodoClick.bind(this);
+    this.deleteTodoClicked = this.deleteTodoClicked.bind(this);
+    this.updateTodoClicked = this.updateTodoClicked.bind(this);
     this.refreshTodos = this.refreshTodos.bind(this);
+    this.addTodoClicked = this.addTodoClicked.bind(this);
   }
 
   componentWillUnmount() {
@@ -41,7 +42,7 @@ class ListTodosComponent extends Component {
     });
   }
 
-  deleteTodoClick(id) {
+  deleteTodoClicked(id) {
     let username = AuthenticationService.getLoggedInUserName();
     console.log(id + " | " + username);
     TodoDataService.deleteTodo(username, id).then((response) => {
@@ -49,8 +50,10 @@ class ListTodosComponent extends Component {
       this.refreshTodos();
     });
   }
-
-  updateTodoClick(id) {
+  addTodoClicked() {
+    this.props.history.push("/todos/-1");
+  }
+  updateTodoClicked(id) {
     console.log("Updated: " + id);
     // todos/${id}
     this.props.history.push(`/todos/${id}`);
@@ -90,7 +93,7 @@ class ListTodosComponent extends Component {
                   <td>
                     <button
                       className="btn btn-success"
-                      onClick={() => this.updateTodoClick(todo.id)}
+                      onClick={() => this.updateTodoClicked(todo.id)}
                     >
                       Update
                     </button>
@@ -98,7 +101,7 @@ class ListTodosComponent extends Component {
                   <td>
                     <button
                       className="btn btn-warning"
-                      onClick={() => this.deleteTodoClick(todo.id)}
+                      onClick={() => this.deleteTodoClicked(todo.id)}
                     >
                       Delete
                     </button>
@@ -107,6 +110,11 @@ class ListTodosComponent extends Component {
               ))}
             </tbody>
           </table>
+          <div className="row">
+            <button className="btn btn-success" onClick={this.addTodoClicked}>
+              Add
+            </button>
+          </div>
         </div>
       </div>
     );
