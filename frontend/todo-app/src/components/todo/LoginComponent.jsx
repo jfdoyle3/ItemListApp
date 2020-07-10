@@ -52,14 +52,31 @@ class LoginComponent extends Component {
     // } else { this.setState({ showSuccessMessage: false });
     //          this.setState({ hasLoginFailed: true });
     // }
-    AuthenticationService.basicAuthenticationService(
+    //   AuthenticationService.executeBasicAuthenticationService(
+    //     this.state.username,
+    //     this.state.password
+    //   )
+    //     .then(() => {
+    //       AuthenticationService.registerSuccessfulLogin(
+    //         this.state.username,
+    //         this.state.password
+    //       );
+    //       this.props.history.push(`/welcome/${this.state.username}`);
+    //     })
+    //     .catch(() => {
+    //       this.setState({ showSuccessMessage: false });
+    //       this.setState({ hasLoginFailed: true });
+    //     });
+    // }
+
+    AuthenticationService.executeJwtAuthenticationService(
       this.state.username,
       this.state.password
     )
-      .then(() => {
-        AuthenticationService.registerSuccessfulLogin(
+      .then((response) => {
+        AuthenticationService.registerSuccessfulLoginForJwt(
           this.state.username,
-          this.state.password
+          response.data.token
         );
         this.props.history.push(`/welcome/${this.state.username}`);
       })
@@ -68,7 +85,6 @@ class LoginComponent extends Component {
         this.setState({ hasLoginFailed: true });
       });
   }
-
   render() {
     return (
       <div>

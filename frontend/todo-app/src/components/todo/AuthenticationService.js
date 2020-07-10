@@ -6,12 +6,28 @@ class AuthenticationService {
     return "Basic " + window.btoa(username + ":" + password);
   }
 
-  basicAuthenticationService(username, password) {
-    return axios("http://localhost:8080/basicauth", {
+  createJWTToken(token) {
+    return "Bearer " + token;
+  }
+
+  executeBasicAuthenticationService(username, password) {
+    return axios.get("http://localhost:8080/basicauth", {
       headers: {
         authorization: this.createBasicAuthToken(username, password),
       },
     });
+  }
+
+  executeJwtAuthenticationService(username, password) {
+    return axios.post("http://localhost:8080/authenticate", {
+      username,
+      password,
+    });
+  }
+
+  registerSuccessfulLoginForJwt(username, token) {
+    sessionStorage.setItem("authenticatedUser", username);
+    this.setupAxiosInterceptors(this.createJWTToken(token));
   }
 
   registerSuccessfulLogin(username, password) {
