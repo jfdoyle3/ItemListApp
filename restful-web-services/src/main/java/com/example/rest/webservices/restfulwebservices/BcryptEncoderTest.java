@@ -9,7 +9,7 @@ public class BcryptEncoderTest {
 		BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
 		
 		for(int idx=1; idx<10; idx++) {
-		String encodedString=encoder.encode("password@!123@#!");
+		String encodedString=encoder.encode("password");
 		System.out.println(encodedString);
 		}
 	}
